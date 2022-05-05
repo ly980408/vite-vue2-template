@@ -1,16 +1,13 @@
 # vue2+vite
 
-使用vite搭建的一个vue2 demo
-
-引入了 `@vue/composition-api` 插件
-
-和一些简单的 `eslint` & `prettier` 配置
+如何使用 Vite 搭建的一个 Vue2 项目
 
 ## 搭建方法
 
+以`Yarn`为例
+
 ### 1. 创建一个 vite 项目
 
-以`Yarn`为例
 
 先用Vite创建一个项目，详见[官方文档](https://cn.vitejs.dev/guide/#scaffolding-your-first-vite-project)
 ``` shell
@@ -97,7 +94,42 @@ server: {
 }
 ```
 
-### 其他设置
+## 其他设置
 
-#### Composition-api 和 setup 语法糖
+### Composition-api 和 setup 语法糖
 
+[unplugin-vue2-script-setup](https://github.com/antfu/unplugin-vue2-script-setup)
+
+1. 安装：
+```shell
+$ yarn add @vue/composition-api
+$ yarn add -D unplugin-vue2-script-setup
+```
+2. 在`main.js`中安装`@vue/composition-api`（它启用`setup()`钩子）：
+```js
+import Vue from 'vue'
+import VueCompositionAPI from '@vue/composition-api'
+
+Vue.use(VueCompositionAPI)
+```
+3. 在`vite.config.js`中配置：
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+import { createVuePlugin as Vue2 } from 'vite-plugin-vue2'
+import ScriptSetup from 'unplugin-vue2-script-setup/vite'
+
+export default defineConfig({
+  plugins: [
+    Vue2(),
+    ScriptSetup({ /* options */ })
+  ]
+})
+```
+4. 使用：
+```html
+<script setup>
+  import { ref } from '@vue/composition-api'
+  const msg = ref('I am using CompositionAPI and <script setup> in Vue2 !')
+</script>
+```
